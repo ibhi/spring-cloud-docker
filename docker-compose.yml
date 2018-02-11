@@ -1,0 +1,20 @@
+version: "3"
+
+services:
+  eureka-service:
+    image: sabibm/eureka-service
+    ports:
+      - "8761:8761"
+    networks:
+      - micro
+  config-server:
+    depends_on:
+      - eureka-service
+    image: sabibm/config-server
+    ports:
+      - "8888:8888"
+    networks:
+      - micro
+
+networks:
+  micro:
