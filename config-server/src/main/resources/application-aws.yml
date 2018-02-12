@@ -1,0 +1,19 @@
+spring:
+  config:
+    name: configserver
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/ibhi/config-data
+eureka:
+  ap-south-1:
+    availabilityZones: ap-south-1a, ap-south-1b
+  datacenter: cloud
+  instance:
+    preferIpAddress: true
+  client:
+    serviceUrl:
+      defaultZone: http://${EUREKA_SERVER_PUBLIC_IP}:8761/eureka/
+      ap-south-1a: http://${EUREKA_SERVER_PUBLIC_IP}:8761/eureka/
+      ap-south-1b: http://${EUREKA_SERVER_PUBLIC_IP}:8761/eureka/

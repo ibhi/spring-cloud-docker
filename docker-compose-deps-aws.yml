@@ -1,0 +1,19 @@
+version: "3"
+
+services:
+  eureka-service:
+    image: sabibm/eureka-service
+    ports:
+      - "8761:8761"
+    environment:
+      - SPRING_PROFILES_ACTIVE=aws
+      - EUREKA_SERVER_PUBLIC_IP=ec2-13-127-175-87.ap-south-1.compute.amazonaws.com
+  config-server:
+    depends_on:
+      - eureka-service
+    image: sabibm/config-server
+    ports:
+      - "8888:8888"
+    environment:
+      - SPRING_PROFILES_ACTIVE=aws
+      - EUREKA_SERVER_PUBLIC_IP=ec2-13-127-175-87.ap-south-1.compute.amazonaws.com

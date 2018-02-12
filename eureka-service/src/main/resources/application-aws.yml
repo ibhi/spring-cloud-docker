@@ -1,0 +1,20 @@
+server:
+    port: 8761
+
+eureka:
+  environment: stage
+  region: ap-south-1
+  shouldUseDns: false
+  datacenter: cloud
+  ap-south-1:
+    availabilityZones: ap-south-1a, ap-south-1b
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+    serviceUrl:
+      defaultZone: http://${EUREKA_SERVER_PUBLIC_IP}:8761/eureka/
+      ap-south-1a: http://${EUREKA_SERVER_PUBLIC_IP}:8761/eureka/
+      ap-south-1b: http://${EUREKA_SERVER_PUBLIC_IP}:8761/eureka/
+  server:
+    waitTimeInMsWhenSyncEmpty: 0
+    enableSelfPreservation: false
