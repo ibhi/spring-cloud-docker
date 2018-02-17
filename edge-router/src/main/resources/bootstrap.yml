@@ -1,9 +1,9 @@
 spring:
   application:
-    name: agency
+    name: edge-router
   cloud:
-    config:
-      uri: http://config-server:8888
+      config:
+        uri: http://config-server:8888
 
 ---
 spring:

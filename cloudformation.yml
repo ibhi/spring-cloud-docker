@@ -1856,6 +1856,8 @@ Resources:
 
                 EC2_INSTANCE_ID="`wget -q -O - http://169.254.169.254/latest/meta-data/instance-id || die \"wget instance-id has failed: $?\"`"
 
+                echo $EC2_INSTANCE_ID
+
                 aws ec2 associate-address --allow-reassociation --instance-id $EC2_INSTANCE_ID --allocation-id ${eurekaElasticIp.AllocationId}
 
                 yum update -y

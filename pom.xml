@@ -13,5 +13,6 @@
         <module>config-server</module>
         <module>agency</module>
         <module>company</module>
+        <module>edge-router</module>
     </modules>
 </project>
