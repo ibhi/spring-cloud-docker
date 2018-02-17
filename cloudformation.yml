@@ -300,10 +300,10 @@ Resources:
     - vpc
     Properties:
       HealthCheckIntervalSeconds: 5
-      HealthCheckPath: /                   # Todo: Update health check path
+      HealthCheckPath: /agency                   # Todo: Update health check path
       HealthCheckTimeoutSeconds: 2
       HealthyThresholdCount: 2
-      Port: 9000                                # Todo: Update port
+      Port: 8080                                # Todo: Update port
       Protocol: HTTP
       Tags:
       - Key: Name
@@ -1625,6 +1625,25 @@ Resources:
           Value: !Join ['', [eureka, ., !Ref 'AWS::Region', ., !Ref 'domainName', .]]
         - Name: SPRING_PROFILES_ACTIVE
           Value: aws
+      - Image: sabibm/edge-router:latest
+        LogConfiguration:
+          LogDriver: awslogs
+          Options:
+            awslogs-group:
+              Ref: cloudWatchLogsGroup
+            awslogs-region:
+              Ref: AWS::Region
+        Memory: '512'
+        Name: edge-router
+        PortMappings:
+        - ContainerPort: 8080
+          HostPort: 0
+          Protocol: tcp
+        Environment:
+        - Name: EUREKA_SERVER_PUBLIC_IP
+          Value: !Join ['', [eureka, ., !Ref 'AWS::Region', ., !Ref 'domainName', .]]
+        - Name: SPRING_PROFILES_ACTIVE
+          Value: aws
       TaskRoleArn:
         Ref: taskDefinitionRole
     Type: AWS::ECS::TaskDefinition
@@ -1643,8 +1662,8 @@ Resources:
       DesiredCount:
         Ref: ecsServiceTargetCapacity
       LoadBalancers:
-      - ContainerName: agency
-        ContainerPort: 9000
+      - ContainerName: edge-router
+        ContainerPort: 8080
         TargetGroupArn:
           Ref: applicationLoadBalancerTargetGroup
       Role:
