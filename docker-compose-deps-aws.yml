@@ -7,7 +7,7 @@ services:
       - "8761:8761"
     environment:
       - SPRING_PROFILES_ACTIVE=aws
-      - EUREKA_SERVER_PUBLIC_IP=ec2.noobish.vpc
+      - EUREKA_SERVER_PUBLIC_IP=eureka.ap-south-1.ibrook.vpc
   config-server:
     depends_on:
       - eureka-service
@@ -16,4 +16,4 @@ services:
       - "8888:8888"
     environment:
       - SPRING_PROFILES_ACTIVE=aws
-      - EUREKA_SERVER_PUBLIC_IP=ec2.noobish.vpc
+      - EUREKA_SERVER_PUBLIC_IP=eureka.ap-south-1.ibrook.vpc
