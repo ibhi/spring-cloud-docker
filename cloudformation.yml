@@ -300,7 +300,7 @@ Resources:
     - vpc
     Properties:
       HealthCheckIntervalSeconds: 5
-      HealthCheckPath: /info                   # Todo: Update health check path
+      HealthCheckPath: /agency                   # Todo: Update health check path
       HealthCheckTimeoutSeconds: 2
       HealthyThresholdCount: 2
       Port: 8080                                # Todo: Update port
