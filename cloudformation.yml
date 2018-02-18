@@ -12,35 +12,35 @@ Mappings:
       CIDR: 10.0.0.0/16
   ecsOptimizedAmi:
     us-east-2:
-      AMI: ami-ce1c36ab
+      AMI: ami-67ab9e02
     us-east-1:
-      AMI: ami-28456852
+      AMI: ami-5e414e24
     us-west-2:
-      AMI: ami-decc7fa6
+      AMI: ami-10ed6968
     us-west-1:
-      AMI: ami-74262414
+      AMI: ami-00898660
     eu-west-3:
-      AMI: ami-9aef59e7
+      AMI: ami-6fa21412
     eu-west-2:
-      AMI: ami-67cbd003
+      AMI: ami-42a64325
     eu-west-1:
-      AMI: ami-1d46df64
+      AMI: ami-880d64f1
     eu-central-1:
-      AMI: ami-509a053f
+      AMI: ami-63cbae0c
     ap-northeast-2:
-      AMI: ami-c212b2ac
+      AMI: ami-0acc6e64
     ap-northeast-1:
       AMI: ami-872c4ae1
     ap-southeast-2:
-      AMI: ami-58bb443a
+      AMI: ami-36867d54
     ap-southeast-1:
-      AMI: ami-910d72ed
+      AMI: ami-66c98f1a
     ca-central-1:
-      AMI: ami-435bde27
+      AMI: ami-4b9c182f
     ap-south-1:
-      AMI: ami-00491f6f
+      AMI: ami-ca8ad9a5
     sa-east-1:
-      AMI: ami-af521fc3
+      AMI: ami-69f7b805
   amazonAmi:
     us-east-2:
       AMI: ami-ca3b11af
@@ -300,7 +300,7 @@ Resources:
     - vpc
     Properties:
       HealthCheckIntervalSeconds: 5
-      HealthCheckPath: /agency                   # Todo: Update health check path
+      HealthCheckPath: /info                   # Todo: Update health check path
       HealthCheckTimeoutSeconds: 2
       HealthyThresholdCount: 2
       Port: 8080                                # Todo: Update port
@@ -1595,7 +1595,7 @@ Resources:
               Ref: cloudWatchLogsGroup
             awslogs-region:
               Ref: AWS::Region
-        Memory: '512'
+        Memory: '1024'
         Name: agency
         PortMappings:
         - ContainerPort: 9000
@@ -1603,7 +1603,7 @@ Resources:
           Protocol: tcp
         Environment:
         - Name: EUREKA_SERVER_PUBLIC_IP
-          Value: !Join ['', [eureka, ., !Ref 'AWS::Region', ., !Ref 'domainName', .]]
+          Value: !Join ['', [eureka, ., !Ref 'AWS::Region', ., !Ref 'domainName']]
         - Name: SPRING_PROFILES_ACTIVE
           Value: aws
       - Image: sabibm/company:latest
@@ -1614,7 +1614,7 @@ Resources:
               Ref: cloudWatchLogsGroup
             awslogs-region:
               Ref: AWS::Region
-        Memory: '512'
+        Memory: '1024'
         Name: company
         PortMappings:
         - ContainerPort: 9001
@@ -1622,7 +1622,7 @@ Resources:
           Protocol: tcp
         Environment:
         - Name: EUREKA_SERVER_PUBLIC_IP
-          Value: !Join ['', [eureka, ., !Ref 'AWS::Region', ., !Ref 'domainName', .]]
+          Value: !Join ['', [eureka, ., !Ref 'AWS::Region', ., !Ref 'domainName']]
         - Name: SPRING_PROFILES_ACTIVE
           Value: aws
       - Image: sabibm/edge-router:latest
@@ -1633,7 +1633,7 @@ Resources:
               Ref: cloudWatchLogsGroup
             awslogs-region:
               Ref: AWS::Region
-        Memory: '512'
+        Memory: '1024'
         Name: edge-router
         PortMappings:
         - ContainerPort: 8080
@@ -1641,7 +1641,7 @@ Resources:
           Protocol: tcp
         Environment:
         - Name: EUREKA_SERVER_PUBLIC_IP
-          Value: !Join ['', [eureka, ., !Ref 'AWS::Region', ., !Ref 'domainName', .]]
+          Value: !Join ['', [eureka, ., !Ref 'AWS::Region', ., !Ref 'domainName']]
         - Name: SPRING_PROFILES_ACTIVE
           Value: aws
       TaskRoleArn:
@@ -1656,6 +1656,7 @@ Resources:
     - applicationLoadBalancer
     - applicationLoadBalancerListener
     - applicationLoadBalancerTargetGroup
+    - eurekaSpotFleet
     Properties:
       Cluster:
         Ref: ecsCluster
@@ -1712,7 +1713,7 @@ Resources:
       HostedZoneId:
         Ref: privateHostedZone
       Comment: DNS name for my elastic IP of Eureka server.
-      Name: !Join ['', [eureka, ., !Ref 'AWS::Region', ., !Ref 'domainName', .]]
+      Name: !Join ['', [eureka, ., !Ref 'AWS::Region', ., !Ref 'domainName']]
       Type: A
       TTL: '900'
       ResourceRecords:

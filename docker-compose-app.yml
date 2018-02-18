@@ -15,6 +15,15 @@ services:
       - "9000:9000"
     networks:
       - micro
+  edge-router:
+    depends_on:
+      - company
+      - agency
+    image: sabibm/edge-router
+    ports:
+      - "8080:8080"
+    networks:
+      - micro
 
 networks:
   micro:
